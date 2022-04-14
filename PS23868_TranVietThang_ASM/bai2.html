@@ -1,0 +1,170 @@
+<html>
+
+<head>
+    <title>DangThanhDuy_ps22256_Chuyển_Ảnh</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <style>
+        body{
+            background-color: rgb(227, 173, 97);
+        }  
+
+        #slide h2 {
+            text-align: center;
+            color: rgb(27, 16, 233);
+        }
+
+        #slide {
+            width: 700px;
+            height: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #slide img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #slide i:first-child {
+            position: absolute;
+            top: 55%;
+            left: 30px;
+            color: rgb(209, 35, 35);
+            font-size: 40px;
+        }
+
+        #slide i:last-child {
+            position: absolute;
+            top: 55%;
+            right: 30px;
+            color: rgb(209, 35, 35);
+            font-size: 40px;
+        }
+
+        #slide p#dem {
+            margin: 0;
+            padding: 10px 0;
+            background-color: rgb(10, 10, 10);
+            color: white;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #slide #mota {
+            position: absolute;
+            top: 55%;
+            left: 35%;
+            color: darkorange;
+            font-size: 32px;
+            background-color: darkslategray;
+            opacity: 0.8;
+            display: block;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="slide">
+        <h2>Chó CuTe</h2>
+        <img id="hinh" src="images/0.jpg">
+        <div class="dieuhuong">
+            <i class="fa fa-chevron-circle-left" onclick="prev()"></i>
+            <i class="fa fa-chevron-circle-right" onclick="next()"></i>
+        </div>
+        <p id="dem"></p>
+        <p id="mota"></p>
+    </div>
+</body>
+
+</html>
+<script>
+    // tạo biến images là mảng
+     var images = [];
+     //cho biến index = 0
+        var index = 0;
+        //biến hình = 5 là số hình đang có
+        var sohinh = 5;
+        //tạo vòng for để duyệt mảng
+        //sau đó gán biến images thứ i = đường dẫn vào ảnh thứ i để gọi ảnh
+        for (var i = 0; i < sohinh; i++) {
+            images[i] = new Image();
+            images[i].src = "images/" + i + ".jpg";
+        }
+
+        //tạo mảng để chứa mô tả
+        var arr_mota=[
+            "chó ngáo 1",
+            "chó ngáo 2",
+            "chó ngáo 3",
+            "chó ngáo 4",
+            "chó ngáo 5",
+
+
+        ]
+        // hàm next khi ấn sẽ đổi thành ảnh kế tiếp
+        function next() {
+            index++;
+            //hàm next khi ấn cho index tăng lên 1 đơn vị
+            //dùng điều kiện if để xét index >= images.length thì index=0
+            if (index >= images.length) index = 0;
+            //gán biến anh = hình để xuất ra id #hinh
+            var anh = document.getElementById("hinh");
+            anh.src = images[index].src;
+
+        // khi ấn next thì gán biến index + 1 và thêm chuỗi để dễ nhìn ra id #dem
+        document.getElementById("dem").innerHTML =index +1+ "/" + images.length;
+        //cho id #mota bằng arr_mota thứ indexx là thứ i mỗi lần ấn next tăng 1
+        document.getElementById("mota").innerHTML = arr_mota[index];
+
+          
+        }
+
+        // hàm prev khi ấn sẽ lùi lại ảnh vừa next
+        //hàm prev tương tự hàm next chỉ khác là khi ấn vào thì   index = images.length - 1;
+        function prev() {
+            index--;
+            if (index < 0)
+                index = images.length - 1;
+            var anh = document.getElementById("hinh");
+            anh.src = images[index].src;
+        document.getElementById("dem").innerHTML =index +1+ "/" + images.length;
+        document.getElementById("mota").innerHTML = arr_mota[index];
+
+        }
+
+    // var arr_hinh = [
+       
+    //     "images/0.jpg",
+    //     "images/2.jpg",
+    //     "images/3.jpg",
+    //     "images/4.jpg",
+        
+
+    // ]
+    // var index = 0;
+    
+
+    // function next() {
+    //     index++;
+    //     if (index >= arr_hinh.length) index = 0;
+
+    //     var hinh = document.getElementById("hinh");
+    //     hinh.src = arr_hinh[index];
+    //     document.getElementById("dem").innerHTML =index +1+ "/" + arr_hinh.length;
+    //     document.getElementById("mota").innerHTML = arr_mota[index];
+    // }
+    // function prev() {
+    //     index--;
+    //     if (index < 0) index = arr_hinh.length - 1;
+
+    //     var hinh = document.getElementById("hinh");
+    //     hinh.src = arr_hinh[index];
+    //     document.getElementById("dem").innerHTML =index +1+ "/" + arr_hinh.length;
+    //     document.getElementById("mota").innerHTML = arr_mota[index];
+    // }
+</script>

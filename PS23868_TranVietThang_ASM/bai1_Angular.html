@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DangThanhDuy_ps22256_Giải_PT</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="js/bootstrap.bundle.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"> </script>
+    <style>
+        body {
+            background-color: rgb(225, 196, 156);
+        }
+
+        .container {
+            width: 550px;
+            margin: auto;
+            background-color: rgb(53, 53, 56);
+            color: rgb(211, 224, 30);
+            font-size: 22px;
+            text-align: center;
+            border: 2px solid white;
+            border-radius: 15px;
+        }
+
+        form input[id] {
+            width: 200px;
+            text-align: center;
+            padding: 6px 0px;
+            border: 1px solid rgb(48, 41, 41);
+            background-color: blanchedalmond;
+        }
+
+        form button {
+            width: 120px;
+            height: 40px;
+        }
+
+        .nut {
+            background-color: rgb(241, 113, 8);
+            color: aliceblue;
+        }
+
+        .nut_khoa {
+            background-color: darksalmon;
+            color: aliceblue;
+        }
+
+        #kq {
+            height: 150px;
+            margin: 10px 50px 0px 50px;
+            border: 1px double white;
+        }
+
+        #dongho {
+            color: rgb(236, 240, 245);
+            font-size: italic;
+            ;
+        }
+    </style>
+</head>
+
+<body ng-app="b1">
+
+    <div ng-controller="ctr1" class="container">
+        <h3>Giải Phương trình bậc 2:<span id="hienthi"> ax<sup>2</sup> +bx + c = 0</span> </h3>
+        <span>Số lần giải: <b id="solangiai">{{solangiai}}</b></span>
+        <hr>
+        <form>
+            <p><label>Nhập số a</label>
+                <input ng-model="a" type="text" name="a" id="a">
+            </p>
+            <p><label>Nhập số b</label>
+                <input ng-model="b" type="text" name="b" id="b">
+            </p>
+            <p><label>Nhập số c</label>
+                <input ng-model="c" type="text" name="c" id="c">
+            </p>
+
+            <button type="button" id="btngiai" ng-click="tinhtoan(); dem()" disabled class="nut_khoa">Giải PT</button>
+            <button type="button" id="btnchoso" onclick="choso()" class="nut">Cho số</button>
+        </form>
+        <div id="kq" class="mt-2 border rounded border-1 p-2" style="height: 200px"><span
+                class="form-control">{{ketqua}}</span></div>
+
+        <p id="dongho"></p>
+    </div>
+</body>
+
+</html>
+
+
+<script>
+
+    //1. hàm cho số,random
+    function choso() {
+        //khai báo biến a ,b ,c d và gán bằng hàm Math để lấy 3 số random từ 0 đến 10
+        var a = Math.round(Math.random() * 10);
+        var b = Math.round(Math.random() * 10);
+        var c = Math.round(Math.random() * 10);
+        //lấy 3 số a , b , c từ #id a , b , c
+        document.getElementById("a").value = a;
+        document.getElementById("b").value = b;
+        document.getElementById("c").value = c;
+        //biến btn khi ấn vào thì #btngiai sẽ disabled sẽ bằng true để có thể ấn nút giải
+        var btn = document.getElementById("btngiai");
+        btn.disabled = false;
+        //cho btn có classname bằng 'nut' để định dạng
+        btn.className = 'nut';
+
+
+        // lấy giá trị a b c ngẫu nghiên đưa vào tag span
+        var hienthi = ` ${a}x<sup>2</sup> + ${b}x + ${c} = 0`;
+        document.getElementById("hienthi").innerHTML = hienthi;
+    }
+
+</script>
+<script>
+    app = angular.module("b1", []);
+    app.controller("ctr1", xuly);
+
+    function xuly($scope) {
+        $scope.tinhtoan = function () {
+
+            var a = document.getElementById("a").value;
+            var b = document.getElementById("b").value;
+            var c = document.getElementById("c").value;
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                $scope.ketqua = `Phương trình không được có chữ`;
+                //kiểm tra xem số có từ 1 đến 10 hay không
+            } else if (a > 10 || b > 10 || c > 10) {
+                $scope.ketqua = `Phương trình phải có (a , b , c) >= 10`;
+
+
+                // nếu đúng hết thì giải phương trình
+            } else {
+                //a = 0 giải pt bậc 1
+                if (a == 0) {
+                    if (b == 0) {
+                        if (c == 0) {
+                            $scope.ketqua = "Vô số nghiệm";
+                        } else {
+                            $scope.ketqua = "Vô nghiệm";
+                        }
+                        //ngược lại thì giải bậc 2
+                    } else {
+                        var x = -c / b;
+                        x = x.toFixed(2);
+                        $scope.ketqua = `Phương trình có nghiệm:${x.toFixed(2)}`;
+
+                    }
+                } else {
+                    //tạo biến và tính delta
+                    var delta = b * b - 4 * a * c;
+                    if (delta < 0) {
+                        //delta <0 thì vô nghiệm
+                        $scope.ketqua = "Vô nghiệm";
+                    } else if (delta == 0) {
+                        //delta == 0 thì có nghiệm kép -b/(2*a)
+                        var x = -b / (2 * a);
+                        x = x.toFixed(2);
+                        $scope.ketqua = `Phương trình có nghiệm kép:${x}`;
+
+                    } else {
+                        //delta > 0 thì 2 nghiệm phân biệt
+                        var x1 = (-b - Math.sqrt(delta)) / (2 * a);
+                        var x2 = (-b + Math.sqrt(delta)) / (2 * a);
+                        $scope.ketqua = `PT Có 2 nghiệm phân biệt
+                            X1 = ${x1.toFixed(2)},
+                            X2 = ${x2.toFixed(2)}
+                            `;
+                        //sử dụng toFixed(2) để lấy 2 số lẻ
+                        //xuất ra id #kq
+
+                    }
+                }
+                // sau khi giải xong thì cho nút khóa disabled = true thì sẽ k ấn đc
+                btn = document.getElementById("btngiai");
+                btn.className = "nut_khoa";
+                btn.disabled = true;
+                // lấy giá trị a b c ngẫu nghiên đưa vào tag span( để ở đây vì khi người dụng nhập khác số vẫn hiện đúng)
+                var hienthi = ` ${a}x<sup>2</sup> + ${b}x + ${c} = 0`;
+
+            }
+
+        }
+        //khai báo biến solangiai để hứng giá trị khi ấn
+        var dem = 0;
+        //hàm đếm
+        $scope.dem = function () {
+            //gọi hàm dem ở nút Giải Pt khi ấn sẽ lưu vào solangiai
+            dem++;
+            //sau đó xuất ra id #solangiai
+            $scope.solangiai = dem;
+        }
+    }
+
+
+
+</script>
+<script>
+
+
+</script>
+
+<!-- <script>
+    //2.hàm giải phương trình
+    var ptb2 = {
+        giai: function () {
+            // lấy giá trị từ 3 textfield
+            var a = document.getElementById("a").value;
+            var b = document.getElementById("b").value;
+            var c = document.getElementById("c").value;
+            // kiểm tra xem a b c có phải số hay không
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                str = `<p>Phương trình không được có chữ</p>`;
+                document.getElementById("kq").innerHTML = str;
+
+                //kiểm tra xem số có từ 1 đến 10 hay không
+            } else if (a > 10 || b > 10 || c > 10) {
+                str = `<p>Phương trình phải có (a , b , c) >= 10</p>`;
+                document.getElementById("kq").innerHTML = str;
+
+                // nếu đúng hết thì giải phương trình
+            } else {
+                //a = 0 giải pt bậc 1
+                if (a == 0) {
+                    if (b == 0) {
+                        if (c == 0) {
+                            document.getElementById("kq").innerHTML = "<p>Vô số nghiệm</p>";
+                        } else {
+                            document.getElementById("kq").innerHTML = "<p>Vô nghiệm</p>";
+                        }
+                        //ngược lại thì giải bậc 2
+                    } else {
+                        var x = -c / b;
+                        x = x.toFixed(2);
+                        str = `<p>Phương trình có nghiệm:${x.toFixed(2)}</p>`;
+                        document.getElementById("kq").innerHTML = str;
+                    }
+                } else {
+                    //tạo biến và tính delta
+                    var delta = b * b - 4 * a * c;
+                    if (delta < 0) {
+                        //delta <0 thì vô nghiệm
+                        document.getElementById("kq").innerHTML = "<p>Vô nghiệm</p>";
+                    } else if (delta == 0) {
+                        //delta == 0 thì có nghiệm kép -b/(2*a)
+                        var x = -b / (2 * a);
+                        x = x.toFixed(2);
+                        str = `<p>Phương trình có nghiệm kép:${x}</p>`;
+                        document.getElementById("kq").innerHTML = str;
+                    } else {
+                        //delta > 0 thì 2 nghiệm phân biệt
+                        var x1 = (-b - Math.sqrt(delta)) / (2 * a);
+                        var x2 = (-b + Math.sqrt(delta)) / (2 * a);
+                        var str = `<p>PT Có 2 nghiệm phân biệt</p>
+                            <p>X<sub>1</sub> = ${x1.toFixed(2)}</p>
+                            <p>X<sub>2</sub> = ${x2.toFixed(2)}</p>
+                            `;
+                            //sử dụng toFixed(2) để lấy 2 số lẻ
+                            //xuất ra id #kq
+                        document.getElementById("kq").innerHTML = str;
+                    }
+                }
+                // sau khi giải xong thì cho nút khóa disabled = true thì sẽ k ấn đc
+                btn = document.getElementById("btngiai");
+                btn.className = "nut_khoa";
+                btn.disabled = true;
+                // lấy giá trị a b c ngẫu nghiên đưa vào tag span( để ở đây vì khi người dụng nhập khác số vẫn hiện đúng)
+                var hienthi = ` ${a}x<sup>2</sup> + ${b}x + ${c} = 0`;
+                document.getElementById("hienthi").innerHTML = hienthi;
+            }
+
+        }
+    }
+
+</script>
+<script>
+    //khai báo biến solangiai để hứng giá trị khi ấn
+    var solangiai = 0;
+    //hàm đếm
+    function dem() {
+        //gọi hàm dem ở nút Giải Pt khi ấn sẽ lưu vào solangiai
+        solangiai++;
+        //sau đó xuất ra id #solangiai
+        document.getElementById("solangiai").innerHTML = solangiai;
+    }
+</script>
+<script>
+    //hàm đồng hồ
+    function tg() {
+        //khai báo biến giờ phút....
+        var d = new Date();
+        var nam = d.getFullYear();
+        var thang = d.getMonth() + 1;
+        var ngay = d.getDate();
+        var gio = d.getHours();
+        var phut = d.getMinutes();
+        var giay = d.getSeconds();
+        //xuất các biến đã tọa ra thành giờ
+        var str = `Bây giờ là ${ngay}/${thang}/${nam} ${gio}:${phut}:${giay}`;
+        document.getElementById("dongho").innerHTML = str;
+    }
+    //sử dụng setInterval để gọi hàm tg chạy liên tục
+    setInterval("tg()", 1000);
+</script> -->

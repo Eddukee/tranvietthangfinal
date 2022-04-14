@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bài 4</title>
+    <style>
+        body {
+            background-color: rgb(227, 173, 97);
+        }
+
+        #form1 {
+            border-radius: 10px;
+            width: 415px;
+            margin: auto;
+            padding: 10px 40px;
+            background: whitesmoke;
+            border: 1px solid black;
+        }
+
+        #form1 .txt {
+            width: 400px;
+            padding: 6px;
+            border: 1px solid lightslategray;
+        }
+
+        #form1 fieldset {
+            border: 1px solid lightslategray;
+            margin-top: 0px;
+        }
+
+        #form1 #dangki {
+            width: 100px;
+            height: 40px;
+            border: none;
+            background-color: royalblue;
+            color: white;
+        }
+
+        #form1 #baoloi {
+            margin: 0px auto;
+            color: red;
+        }
+
+        h2 {
+            text-align: center;
+            color: brown;
+        }
+
+        #form1 #baoloi {
+            margin: 0px auto;
+            color: red;
+        }
+
+        #form1 .loi {
+            width: 400px;
+            padding: 6px;
+            border: 1px solid red;
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" id="form1">
+        <h2>ĐĂNG KÝ THÀNH VIÊN</h2>
+        <p>
+            <label for="">Mã sinh viên</label><br>
+            <input type="text" id="masv" class="txt">
+        </p>
+        <p>
+            <label for="">Họ và tên</label><br>
+            <input type="text" id="hoten" class="txt">
+        </p>
+        <p>
+            <label for="">Email</label><br>
+            <input type="email" id="email" class="txt">
+        </p>
+        <p>
+        <fieldset id="fs1">
+            <legend>Giới tính</legend>
+            <input type="radio" name="phai" value="nam"><label for="">Nam</label>
+            <input type="radio" name="phai" value="nu"><label for="">Nữ</label>
+        </fieldset>
+        </p>
+        <p>
+        <fieldset id="fs2">
+            <legend>Sở thích</legend>
+            <input type="checkbox" name="st"><label for="">Đọc sách</label>
+            <input type="checkbox" name="st"><label for="">Du lịch</label>
+            <input type="checkbox" name="st"><label for="">Ẩm thực </label>
+            <input type="checkbox" name="st"><label for="">Âm nhạc</label>
+            <input type="checkbox" name="st"><label for="">Khác</label>
+        </fieldset>
+        </p>
+        <p>
+            <label for="">Quốc tịch</label><br>
+            <select name="quoctich" id="quoctich" class="txt">
+                <option value="0">Chọn quốc tịch</option>
+                <option value="1">Usa</option>
+                <option value="2">Việt Nam</option>
+                <option value="3">Trung Quốc</option>
+                <option value="4">Anh</option>
+                <option value="5">Nhật Bản</option>
+            </select>
+        </p>
+        <p>
+            <label for="">Ghi chú</label><br>
+            <textarea class="txt" name="" id="ghichu" cols="54" rows="5"></textarea>
+        </p>
+        <div name="baoloi" id="baoloi">
+
+        </div>
+        <button onclick=" kiemtra();" type="button" id="dangki">Đăng kí</button>
+    </form>
+</body>
+
+</html>
+<script>
+    //hàm kiểm tra
+    function kiemtra() {
+        //cho biến loi = ""; 
+        var loi = "";
+        //Mssv
+        var masv = document.getElementById("masv");
+        //masv mà là "" thì báo lỗi cho k để trống
+        if (masv.value == "") {
+            // masv.className = "loi" để css 
+            masv.className = "loi";
+            //gán thông báo lỗi vào biến loi vừa tạo
+            loi += "Mã sinh viên không được để trống <br>";
+            //nếu masv độ dài khác 7 thì báo lỗi không đúng 7 ký tự
+        } else if (masv.value.length != 7) {
+            masv.className = "loi";
+            loi += "Mã sinh viên không đúng 7 kí tự <br>";
+            //nếu đúng hết thì gán vào txt như bình thường
+        } else masv.className = "txt";
+        //họ tên
+        var hoten = document.getElementById("hoten");
+        //nếu họ tên người dùng khong nhập thì thông báo lỗi
+        if (hoten.value == "") {
+            hoten.className = "loi";
+            loi += "họ và tên không được để trống.<br>";
+        } else if (hoten.value.lenght > 30) {
+            hoten.className = "loi";
+            loi += "Họ tên quá dài. <br>";
+        } else hoten.className = "txt";
+//những điều kiện còn lại gần tương đương nhau
+
+        //email
+        var email = document.getElementById("email");
+        if (email.value == "") {
+            email.className = "loi";
+            loi += "Email không được để trống. <br>";
+        } else email.className = "txt";
+        //giới tính
+        dem = 0;
+        var arr_phai = document.getElementsByName("phai");
+        for (var i = 0; i < arr_phai.length; i++) {
+            if (arr_phai[i].checked == true) dem++;
+        } if (dem == 0) {
+            document.getElementById("fs1").className = "loi";
+            loi += "Phải chọn giởi tính.<br>";
+        } else document.getElementById("fs1").className = "";
+        //sở thích
+        arr_sothich = document.getElementsByName("st");
+        dem = 0;
+        for (var i = 0; i < arr_sothich.length; i++) {
+            if (arr_sothich[i].checked) dem++;
+        } if (dem == 0) {
+            document.getElementById("fs2").className = "loi";
+            loi += "Phải chọn ít nhất 1 sở thích. <br>";
+        } else document.getElementById("fs2").className = "";
+        //quốc tịch
+        var qt = document.getElementById("quoctich");
+        if (qt.value == 0) {
+            qt.className = "loi";
+            loi += "Phải chọn quốc tịch.<br>";
+        } else qt.className = "txt";
+        //ghichu
+        var gc = document.getElementById("ghichu");
+        if (gc.value.length > 200) {
+            gc.className = "loi";
+            loi += "ghi chú phải dưới 200 kí tự.<br>";
+        } else gc.className = "txt";
+
+        // nếu có lỗi thì sẽ xuất ra baoloi
+        if (loi != "") {
+            document.getElementById('baoloi').innerHTML = loi;
+            // sử dụng setTimout để cho thông báo lỗi biến mất trong 5s
+            setTimeout("document.getElementById('baoloi').innerHTML=''", 5000);
+            return false;
+        }
+    }
+</script>
